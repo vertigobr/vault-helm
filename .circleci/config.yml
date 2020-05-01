@@ -17,11 +17,11 @@ jobs:
         - run:
             name: terraform init & apply
             command: |
-            terraform init test/terraform
-            echo $GOOGLE_CREDENTIALS | base64 --decode > vault-helm-test.json
-            gcloud auth activate-service-account --key-file=vault-helm-test.json
+                terraform init test/terraform
+                echo $GOOGLE_CREDENTIALS | base64 --decode > vault-helm-test.json
+                gcloud auth activate-service-account --key-file=vault-helm-test.json
 
-            terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
+                terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
 
         - run:
             name: Run acceptance tests
@@ -30,8 +30,9 @@ jobs:
         - run:
             name: terraform destroy
             command: |
-            terraform destroy -auto-approve
+                terraform destroy -auto-approve
             when: always
+
   update-helm-charts-index:
     docker:
       - image: circleci/golang:latest
