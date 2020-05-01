@@ -6,6 +6,32 @@ jobs:
       - checkout
       - run: make test-image
       - run: make test-unit
+  acceptance:
+    docker:
+        # This image is build from test/docker/Test.dockerfile
+        - image: hashicorpdev/consul-helm-test:0.3.0
+
+    steps:
+        - checkout
+
+        - run:
+            name: terraform init & apply
+            command: |
+            terraform init test/terraform
+            echo $GOOGLE_CREDENTIALS | base64 --decode > vault-helm-test.json
+            gcloud auth activate-service-account --key-file=vault-helm-test.json
+
+            terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
+
+        - run:
+            name: Run acceptance tests
+            command: bats ./test/acceptance -t
+
+        - run:
+            name: terraform destroy
+            command: |
+            terraform destroy -auto-approve
+            when: always
   update-helm-charts-index:
     docker:
       - image: circleci/golang:latest
@@ -24,6 +50,12 @@ workflows:
   build_and_test:
     jobs:
       - bats-unit-test
+      - acceptance:
+        requires:
+          - unit
+        filters:
+          branches:
+            only: add-acceptance-tests-ci
   update-helm-charts-index:
     jobs:
       - update-helm-charts-index:

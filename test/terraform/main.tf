@@ -2,7 +2,7 @@ provider "google" {
   project = "${var.project}"
   region  = "us-central1"
 
-  credentials = "${file("vault-helm-dev-creds.json")}"
+  credentials = "${file("vault-helm-test.json")}"
 }
 
 resource "random_id" "suffix" {
