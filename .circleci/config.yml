@@ -46,7 +46,7 @@ jobs:
                 -H 'Accept: application/json' \
                 -d "{\"branch\": \"master\",\"parameters\":{\"SOURCE_REPO\": \"${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}\",\"SOURCE_TAG\": \"${CIRCLE_TAG}\"}}" \
                 "${CIRCLE_ENDPOINT}/${CIRCLE_PROJECT}/pipeline"
-                
+
 workflows:
   version: 2
   build_and_test:
@@ -54,7 +54,7 @@ workflows:
       - bats-unit-test
       - acceptance:
             requires:
-            - unit
+                - bats-unit-test
             filters:
                 branches:
                     only: add-acceptance-tests-ci
