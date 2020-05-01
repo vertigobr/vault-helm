@@ -19,17 +19,13 @@ data "google_service_account" "gcpapi" {
 }
 
 resource "google_kms_key_ring" "keyring" {
-  name     = "vault-helm-unseal-kr"
+  name     = "vault-helm-unseal-kr-2"
   location = "global"
 }
 
 resource "google_kms_crypto_key" "vault-helm-unseal-key" {
-  name            = "vault-helm-unseal-key"
+  name            = "vault-helm-unseal-key-2"
   key_ring        = "${google_kms_key_ring.keyring.self_link}"
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "google_container_cluster" "cluster" {
