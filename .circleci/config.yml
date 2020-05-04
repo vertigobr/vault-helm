@@ -22,6 +22,7 @@ jobs:
                 gcloud auth activate-service-account --key-file=vault-helm-test.json
 
                 terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
+                helm init
 
         - run:
             name: Run acceptance tests
