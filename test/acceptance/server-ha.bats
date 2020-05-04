@@ -6,6 +6,7 @@ load _helpers
   cd `chart_dir`
 
   helm install "$(name_prefix)" \
+    --set='server.affinity=null' \
     --set='server.ha.enabled=true' .
   wait_for_running $(name_prefix)-0
 
@@ -92,6 +93,7 @@ setup() {
   helm install consul \
     https://github.com/hashicorp/consul-helm/archive/v0.16.2.tar.gz \
     --set 'ui.enabled=false' \
+    --set='server.affinity=null' \
 
   wait_for_running_consul
 }

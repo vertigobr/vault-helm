@@ -10,6 +10,7 @@ load _helpers
     --set='server.image.repository=hashicorp/vault-enterprise' \
     --set='server.image.tag=1.4.0_ent' \
     --set='server.ha.enabled=true' \
+    --set='server.affinity=null' \
     --set='server.ha.raft.enabled=true' .
   wait_for_running "$(name_prefix)-east-0"
 
@@ -78,6 +79,7 @@ load _helpers
     --set='server.image.repository=hashicorp/vault-enterprise' \
     --set='server.image.tag=1.4.0_ent' \
     --set='server.ha.enabled=true' \
+    --set='server.affinity=null' \
     --set='server.ha.raft.enabled=true' .
   wait_for_running "$(name_prefix)-west-0"
 

@@ -13,24 +13,18 @@ jobs:
 
     steps:
         - checkout
-
+        - setup_remote_docker
         - run:
-            name: terraform init & apply
+            name: setup kind
             command: |
-                terraform init test/terraform
-                echo $GOOGLE_APP_CREDS | base64 -d > vault-helm-test.json
-                gcloud auth activate-service-account --key-file=vault-helm-test.json
-
-                terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
+                curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.8.0/kind-linux-amd64
+                chmod +x ./kind
+                mv ./kind /usr/local/bin/kind
         - run:
             name: Run acceptance tests
-            command: bats ./test/acceptance -t
-
-        - run:
-            name: terraform destroy
             command: |
-                terraform destroy -auto-approve
-            when: always
+                kind create cluster
+                bats ./test/acceptance -t
 
   update-helm-charts-index:
     docker:

@@ -7,6 +7,7 @@ load _helpers
 
   helm install "$(name_prefix)" \
     --set='server.ha.enabled=true' \
+    --set='server.affinity=null' \
     --set='server.ha.raft.enabled=true' .
   wait_for_running $(name_prefix)-0
 
