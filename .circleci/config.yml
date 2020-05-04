@@ -19,7 +19,6 @@ jobs:
             command: |
                 terraform init test/terraform
                 echo $GOOGLE_APP_CREDS | base64 -d > vault-helm-test.json
-                echo "export GOOGLE_CREDENTIALS=${GOOGLE_APP_CREDS}" >> $BASH_ENV
                 gcloud auth activate-service-account --key-file=vault-helm-test.json
 
                 terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
