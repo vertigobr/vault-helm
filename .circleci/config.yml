@@ -22,7 +22,7 @@ jobs:
                 sudo mv ./kind /usr/local/bin/kind
                 curl -sSL https://github.com/bats-core/bats-core/archive/v1.1.0.tar.gz -o /tmp/bats.tgz
                 tar -zxf /tmp/bats.tgz -C /tmp
-                /bin/bash /tmp/bats-core-$BATS_VERSION/install.sh /usr/local
+                /bin/bash /tmp/bats-core-1.1.0/install.sh /usr/local
         - run:
             name: Run acceptance tests
             command: |
