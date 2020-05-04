@@ -9,7 +9,7 @@ jobs:
   acceptance:
     docker:
         # This image is build from test/docker/Test.dockerfile
-        - image: hashicorpdev/consul-helm-test:0.3.0
+        - image: hashicorpdev/vault-helm-test:0.1.0
 
     steps:
         - checkout
@@ -22,8 +22,6 @@ jobs:
                 gcloud auth activate-service-account --key-file=vault-helm-test.json
 
                 terraform apply -var project=${CLOUDSDK_CORE_PROJECT} -var init_cli=true -auto-approve test/terraform
-                helm init
-
         - run:
             name: Run acceptance tests
             command: bats ./test/acceptance -t
